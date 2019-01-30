@@ -5,18 +5,13 @@
   {{- $input -}}
 </div>
 
-{{/*
-This doesn't work for some reason
-if in $input `<svg class="bd-placeholder-img`
-*/}}
-
-{{- if gt (len (findRE `<svg class="bd-placeholder-img` $input)) 0 -}}
+{{- if (strings.Contains $input `<svg class="bd-placeholder-img`) -}}
   {{- $modified_content := replace $input `<svg class="bd-placeholder-img` `✂️<svg class="bd-placeholder-img` -}}
   {{- $modified_content = split (replace $modified_content "</svg>" "</svg>✂️") "✂️" -}}
 
   {{- $image_class := "" -}}
 
-  {{- if gt (len (findRE `<svg class="bd-placeholder-img ` $input)) 0 -}}
+  {{- if (strings.Contains $input `<svg class="bd-placeholder-img `) -}}
     {{- $image_class = replace $input "bd-placeholder-img " "bd-placeholder-img ✂️ " -}}
     {{- $image_class = split (replace $image_class `" width="` `✂️" width="`) "✂️" -}}
     {{- $image_class = replace (index $image_class 1) "bd-placeholder-img-lg" "" -}}
@@ -24,7 +19,7 @@ if in $input `<svg class="bd-placeholder-img`
   {{- end -}}
 
   {{- range $i, $content_chunk := $modified_content -}}
-    {{- if gt (len (findRE `<svg class="bd-placeholder-img` $content_chunk)) 0 -}}
+    {{- if (strings.Contains $content_chunk `<svg class="bd-placeholder-img`) -}}
       {{- $img_placeholder := `<img src="..." alt="...">` -}}
 
       {{- if $image_class -}}

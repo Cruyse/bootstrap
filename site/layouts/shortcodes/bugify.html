@@ -1,10 +1,10 @@
 {{- $words := (split .Inner " ") -}}
 
 {{- range $word := $words -}}
-  {{- if in $word "#" -}}
+  {{- if (strings.Contains $word "#") -}}
     {{- $separator := false -}}
 
-    {{- if in $word "," -}}
+    {{- if (strings.Contains $word ",") -}}
       {{- $separator = true -}}
     {{- end -}}
 
